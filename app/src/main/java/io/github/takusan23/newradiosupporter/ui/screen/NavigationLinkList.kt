@@ -15,4 +15,6 @@ object NavigationLinkList {
     /** ライセンス画面 */
     const val SettingLicenseScreen = "setting_license_screen"
 
+    /** ピクチャーインピクチャー画面 */
+    const val PipScreen = "pip_screen"
 }

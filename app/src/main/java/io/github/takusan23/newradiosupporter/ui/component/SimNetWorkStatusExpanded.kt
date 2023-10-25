@@ -1,7 +1,13 @@
 package io.github.takusan23.newradiosupporter.ui.component
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -13,7 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import io.github.takusan23.newradiosupporter.R
 import io.github.takusan23.newradiosupporter.tool.data.FinalNrType
 import io.github.takusan23.newradiosupporter.tool.data.NrStandAloneType
@@ -46,22 +54,57 @@ fun SimNetWorkStatusExpanded(
         }
         Icon(
             modifier = Modifier.size(100.dp),
-            painter = painterResource(id = when (finalNRType) {
-                FinalNrType.ANCHOR_BAND -> R.drawable.ic_android_anchor_lte_band
-                FinalNrType.NR_LTE_FREQUENCY -> R.drawable.android_nr_lte_freq_nr
-                FinalNrType.NR_SUB6 -> R.drawable.ic_android_nr_sub6
-                FinalNrType.NR_MMW -> R.drawable.ic_android_nr_mmw
-                FinalNrType.LTE -> R.drawable.ic_android_lte
-                else -> R.drawable.ic_outline_info_24
-            }),
+            painter = painterResource(
+                id = when (finalNRType) {
+                    FinalNrType.ANCHOR_BAND -> R.drawable.ic_android_anchor_lte_band
+                    FinalNrType.NR_LTE_FREQUENCY -> R.drawable.android_nr_lte_freq_nr
+                    FinalNrType.NR_SUB6 -> R.drawable.ic_android_nr_sub6
+                    FinalNrType.NR_MMW -> R.drawable.ic_android_nr_mmw
+                    FinalNrType.LTE -> R.drawable.ic_android_lte
+                    else -> R.drawable.ic_outline_info_24
+                }
+            ),
             contentDescription = null
         )
         // メッセージ
-        ConnectedStatusMessage(finalNRType = finalNRType)
+        ConnectedStatusMessage(finalNRType = finalNRType, modifier = Modifier.padding(10.dp))
         // 5Gの場合は NSA/SA どっちかを表示する
         if (nrStandAloneType != null && (finalNRType.isNr)) {
             ConnectedNrStandAloneMessage(nrStandAloneType)
         }
+    }
+}
+
+@Composable
+fun SimNetWorkStatusForPip(
+    modifier: Modifier = Modifier,
+    finalNRType: FinalNrType,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Icon(
+            modifier = Modifier.sizeIn(20.dp, 20.dp, 50.dp, 50.dp),
+            painter = painterResource(
+                id = when (finalNRType) {
+                    FinalNrType.ANCHOR_BAND -> R.drawable.ic_android_anchor_lte_band
+                    FinalNrType.NR_LTE_FREQUENCY -> R.drawable.android_nr_lte_freq_nr
+                    FinalNrType.NR_SUB6 -> R.drawable.ic_android_nr_sub6
+                    FinalNrType.NR_MMW -> R.drawable.ic_android_nr_mmw
+                    FinalNrType.LTE -> R.drawable.ic_android_lte
+                    else -> R.drawable.ic_outline_info_24
+                }
+            ),
+            contentDescription = null
+        )
+        // メッセージ
+        ConnectedStatusMessage(
+            finalNRType = finalNRType,
+            modifier = Modifier.padding(5.dp),
+            fontSize = 12.sp
+        )
     }
 }
 
@@ -82,7 +125,11 @@ private fun ConnectedNrStandAloneMessage(nrStandAloneType: NrStandAloneType) {
 
 /** 接続中のネットワークを表示するやつ */
 @Composable
-private fun ConnectedStatusMessage(finalNRType: FinalNrType) {
+private fun ConnectedStatusMessage(
+    finalNRType: FinalNrType,
+    modifier: Modifier = Modifier,
+    fontSize: TextUnit = 18.sp
+) {
     MessageCard(
         cardColor = animateColorAsState(targetValue = if (finalNRType.isNr) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.errorContainer).value,
         iconRes = if (finalNRType.isNr) R.drawable.ic_outline_5g_24 else R.drawable.ic_outline_error_outline_24,
@@ -94,7 +141,9 @@ private fun ConnectedStatusMessage(finalNRType: FinalNrType) {
             FinalNrType.ANCHOR_BAND -> stringResource(id = R.string.type_lte_anchor_band)
             FinalNrType.LTE -> stringResource(id = R.string.type_lte)
             else -> stringResource(id = R.string.loading)
-        }
+        },
+        modifier = modifier,
+        fontSize = fontSize
     )
 }
 
@@ -107,17 +156,19 @@ private fun ConnectedStatusMessage(finalNRType: FinalNrType) {
  */
 @Composable
 private fun MessageCard(
+    modifier: Modifier = Modifier,
     cardColor: Color,
     text: String,
     iconRes: Int,
+    fontSize: TextUnit = 18.sp,
 ) {
     Surface(
-        modifier = Modifier.padding(10.dp),
+        modifier = modifier,
         color = cardColor,
         shape = RoundedCornerShape(10.dp)
     ) {
         Row(
-            modifier = Modifier.padding(10.dp),
+            modifier = modifier,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
@@ -127,7 +178,7 @@ private fun MessageCard(
                 painter = painterResource(id = iconRes),
                 contentDescription = null
             )
-            Text(text = text)
+            Text(text = text, fontSize = fontSize)
         }
     }
 }

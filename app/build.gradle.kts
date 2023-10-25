@@ -50,8 +50,8 @@ dependencies {
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.activity:activity-compose:1.8.0-rc01") // enableEdgeToEdge() 使いたい
-    implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.activity:activity-compose:1.8.0") // enableEdgeToEdge() 使いたい
+    implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
@@ -64,14 +64,14 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    implementation("androidx.navigation:navigation-compose:2.7.3")
+    implementation("androidx.navigation:navigation-compose:2.7.4")
     androidTestImplementation(composeBom)
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     // collectAsStateWithLifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     // てすとこーど
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
